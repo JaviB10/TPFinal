@@ -143,7 +143,7 @@ class RepositorioTrabajos(Repositorio):
         if result[3] == None:
             fecha_entrega_real = None
         else:
-            fecha_entrega_real = datetime.date.fromisoformat(result[2])
+            fecha_entrega_real = datetime.date.fromisoformat(result[3])
 
         # Guardamos la descripcion:
         descripcion = result[4]
