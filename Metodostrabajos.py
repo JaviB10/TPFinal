@@ -12,7 +12,7 @@ class ListaTrabajos:
     def NuevoTrabajo(self, cliente, fecha_ingreso, fecha_entrega_propuesta, descripcion):
         """Recibe los datos de un trabajo, crea un nuevo trabajo y lo agrega a la lista trabajos"""
         T = Trabajo(cliente, fecha_ingreso, fecha_entrega_propuesta, None, descripcion, False)
-        T.id_trabajo = self.RT.store(t)
+        T.id_trabajo = self.RT.store(T)
         if T.id_trabajo == 0:
             return None
         else:
