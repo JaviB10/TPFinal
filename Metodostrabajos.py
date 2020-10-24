@@ -26,19 +26,23 @@ class ListaTrabajos:
                 return (T)
         return None
 
-    def TrabajoFinalizado(self, fecha_entrega_real, id_trabajo):
+    def TrabajoFinalizado(self, id_trabajo):
         """Recibe un trabajo y le modifica la fecha de entrega"""
         T = self.BuscarPorID(id_trabajo)
         if T:
-            T.fecha_entrega_real = fecha_entrega_real.datetime.date.today()
+            T.fecha_entrega_real = datetime.date.today()
             return self.RT.update(T)
-        return False
+        return None
 
-    def Trabajo_retirado(self, retirado, id_trabajo):
+    def Trabajo_retirado(self, id_trabajo):
         """Recibe un trabajo y modifica el trabajo como retirado"""
         T = self.BuscarPorID(id_trabajo)
         if T:
-            T.retirado = retirado(True)
+            if T.fecha_entrega_real == None:
+                T.retirado = True
+                self.TrabajoFinalizado(id_trabajo)
+            else:
+                T.retirado = True
             return self.RT.update(T)
         return False
 
