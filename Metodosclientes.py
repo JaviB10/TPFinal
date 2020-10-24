@@ -41,10 +41,22 @@ class ListaClientes:
         """Recibe los datos modificados y actualiza los datos del cliente particular"""
         C = self.BuscarPorID(id_cliente)
         if C:
-            C.nombre = nombre
-            C.apellido = apellido
-            C.telefono = telefono
-            C.mail = mail
+            if nombre == '':
+                nombre = Cliente.nombre
+            else:
+                C.nombre = nombre
+            if apellido == '':
+                apellido = Cliente.apellido
+            else:
+                C.apellido = apellido
+            if telefono == '':
+                telefono = C.telefono
+            else:
+                C.telefono = telefono
+            if mail == '':
+                mail = C.mail
+            else:
+                C.mail = mail
             return self.RC.update(C)
         return None
 
@@ -52,11 +64,26 @@ class ListaClientes:
         """Recibe los datos modificados y actualiza los datos del cliente corporativo"""
         C = self.BuscarPorID(id_cliente)
         if C:
-            C.nombre_empresa = nombre_empresa
-            C.nombre_contacto = nombre_contacto
-            C.telefono_contacto = telefono_contacto
-            C.telefono = telefono
-            C.mail = mail
+            if nombre_empresa == '':
+                nombre_empresa = C.nombre_empresa
+            else:
+                C.nombre_empresa = nombre_empresa
+            if nombre_contacto == '':
+                nombre_contacto = C.nombre_contacto
+            else:
+                C.nombre_contacto = nombre_contacto
+            if telefono_contacto == '':
+                telefono_contacto = C.telefono_contacto
+            else:
+                C.telefono_contacto = telefono_contacto
+            if telefono == '':
+                telefono = C.telefono
+            else:
+                C.telefono = telefono
+            if mail == '':
+                mail = C.mail
+            else:
+                C.mail = mail
             return self.RC.update(C)
         return None
 
