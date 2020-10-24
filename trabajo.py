@@ -21,6 +21,7 @@ class Trabajo:
         cadena = f"Cliente: \n"
         cadena+= f"{self.cliente}\n"
         cadena+= f"Trabajos: \n"
+        cadena+= f"ID del trabajo: {self.id_trabajo}\n"
         cadena+= f"Fecha de ingreso: {self.fecha_ingreso}\n"
         cadena+= f"Fecha de entrega propuesta: {self.fecha_entrega_propuesta}\n"
         cadena+= f"Fecha de entrega real: {self.fecha_entrega_real}\n"
