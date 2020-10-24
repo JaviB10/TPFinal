@@ -31,7 +31,7 @@ class RepositorioClientes(Repositorio):
         '''Recibe un id de cliente (número entero). Retorna un cliente
         Corporativo. Si no lo encuentra, retorna None.'''
         consulta = "SELECT  cc.nombre_empresa, cc.nombre_contacto, \
-                            cc.telefono_contacto c.telefono, c.mail\
+                            cc.telefono_contacto, c.telefono, c.mail\
                     FROM cliente c \
                     JOIN cliente_corporativo cc ON c.id = cc.id_cliente \
                     WHERE c.id = ?"
