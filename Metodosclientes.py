@@ -10,10 +10,12 @@ from Metodostrabajos import ListaTrabajos
 
 class ListaClientes:
     def __init__(self):
-        self.ListaT = ListaTrabajos()
-        self.RT = RepositorioTrabajos()
         self.RC = RepositorioClientes()
+        self.RT = RepositorioTrabajos()
         self.ClienteL = self.RC.get_all()
+        self.ListaT = ListaTrabajos()
+
+
 
     def NuevoClienteCorp(self, nombre_empresa, nombre_contacto, telefono_contacto, telefono, mail):
         """Recibe los datos de un cliente corporativo, crea un nuevo cliente corporativo y lo agrega a lista de clientes"""
@@ -40,7 +42,9 @@ class ListaClientes:
         for T in self.ClienteL:
             if T.id_cliente == int(id_cliente):
                 return (T)
+        print("El ID ingresado no pertenece a ningun cliente")
         return None
+
 
     def ModificarDatosCP(self, nombre, apellido, telefono ,mail, id_cliente):
         """Recibe los datos modificados y actualiza los datos del cliente particular"""
