@@ -42,11 +42,11 @@ class ListaClientes:
         C = self.BuscarPorID(id_cliente)
         if C:
             if nombre == '':
-                nombre = Cliente.nombre
+                nombre = C.Nombre
             else:
                 C.nombre = nombre
             if apellido == '':
-                apellido = Cliente.apellido
+                apellido = C.apellido
             else:
                 C.apellido = apellido
             if telefono == '':
