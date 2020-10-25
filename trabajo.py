@@ -28,3 +28,4 @@ class Trabajo:
         cadena+= f"Descripción: {self.descripcion}\n"
         cadena+= f"Retirado: {self.retirado}"
         return cadena
+
