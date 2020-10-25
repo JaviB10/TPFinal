@@ -9,6 +9,7 @@ class ClienteParticular(Cliente):
         super().__init__(telefono, mail, id_cliente)
          
     def __str__(self):
-        Cadena = f"{self.id_cliente}:{self.nombre} {self.apellido} (Cliente Particular)\n"
-        Cadena+= f"{self.telefono} - {self.mail}\n"
+        Cadena = f"ID cliente: {self.id_cliente}\n"
+        Cadena+= f"{self.nombre} {self.apellido} (Cliente Particular)\n"
+        Cadena+= f"Tel: {self.telefono} - Email: {self.mail}\n"
         return Cadena
