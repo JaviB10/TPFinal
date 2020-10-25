@@ -64,16 +64,5 @@ class ListaTrabajos:
             return T
         return None
 
-    def AlertaTrabajos(self, n):
-        """Recibe un numero n de dias y retorna una lista con los proximos trabajos a entregar (puede retornar una lista vacia)"""
-        tprox = []
-        hoy = datetime.date.today()
-        for i in range(n+1):
-            f = hoy + datetime.timedelta(days=i)
-            tprox.append(f)
-        List = []
-        for I in self.TrabajoL:
-            if I.cumple_en(tprox):
-                List.append(I)
-        return List
+
 
