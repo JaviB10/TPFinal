@@ -44,23 +44,25 @@ class ListaTrabajos:
             else:
                 T.retirado = True
             return self.RT.update(T)
-        return False
+        return None
 
     def ModificarDatosT(self, fecha_ingreso, fecha_entrega_propuesta, descripcion, id_trabajo):
         """Recibe un trabajo y modifica sus datos"""
         T = self.BuscarPorID(id_trabajo)
         if T:
-            T.fecha_ingreso = fecha_ingreso.datetime.date.today()
-            T.fehca_entrega_propuesta = fecha_entrega_propuesta.datetime.date.today()
+            T.fecha_ingreso = fecha_ingreso
+            T.fecha_entrega_propuesta = fecha_entrega_propuesta
             T.descripcion = descripcion
             return self.RT.update(T)
-        return False
+        return None
 
     def EliminarTrabajo(self, id_trabajo):
         T = self.BuscarPorID(id_trabajo)
         if T:
-            return self.RT.delete(T)
-        return False
+            self.RT.delete(T)
+            self.TrabajoL = self.RT.get_all()
+            return T
+        return None
 
     def AlertaTrabajos(self, n):
         """Recibe un numero n de dias y retorna una lista con los proximos trabajos a entregar (puede retornar una lista vacia)"""
