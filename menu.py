@@ -35,7 +35,7 @@ class Menu:
         1. Ingrese un nuevo cliente
         2. Mostrar todos los clientes
         3. Buscar un cliente por su ID
-        4. Modificar clientes particulares        
+        4. Modificar los datos de un cliente       
         5. Borrar un cliente
         6. Cargar nuevo trabajo
         7. Mostrar los trabajos
@@ -104,8 +104,8 @@ class Menu:
             tipo = input("Ingrese el tipo de cliente que desea modificar: C: Corporativo / P: Particular:")
         if tipo in ("C","c"):
             print("Estos son los clientes corporativos: ")
-            c = self.RC.get_all_corporativos()
-            print(c)
+            for I in self.RC.get_all_corporativos():
+                print(I)
         else:
             print("Estos son los clientes particulares: ")
             c = self.RC.get_all_particulares()
@@ -266,9 +266,19 @@ class Menu:
         """Solicita un ID y muestra una lista con los trabajos encargados por el cliente"""
         id_cliente = int(input("Ingrese el ID del cliente: "))
         C = self.ListaC.BuscarPorID(id_cliente)
-        print (C)
-
-
+        print(C)
+        for I in self.ListaT.TrabajoL:
+            if I.cliente.id_cliente == id_cliente:
+                print("=======================================================")
+                print("ID trabajo: ",I.id_trabajo)
+                print("Fecha de ingreso: ",I.fecha_ingreso)
+                print("Fecha entrega propuesta: ",I.fecha_entrega_propuesta)
+                print("Fecha entrega real: ",I.fecha_entrega_real)
+                print("Descripcion: ",I.descripcion)
+                print("Retirado: ",I.retirado)
+                print("=======================================================")
+            else:
+                print("No se encontraron trabajos")
 
     def salir(self):
         print("Gracias por utilizar el sistema")

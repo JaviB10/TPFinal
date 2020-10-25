@@ -4,9 +4,14 @@ from cliente import Cliente
 from clienteParticular import ClienteParticular
 from clienteCorporativo import ClienteCorporativo
 from repositorioClientes import RepositorioClientes
+from repositorioTrabajos import RepositorioTrabajos
+from Metodostrabajos import ListaTrabajos
+
 
 class ListaClientes:
     def __init__(self):
+        self.ListaT = ListaTrabajos()
+        self.RT = RepositorioTrabajos()
         self.RC = RepositorioClientes()
         self.ClienteL = self.RC.get_all()
 
@@ -88,8 +93,18 @@ class ListaClientes:
         return None
 
     def EliminarCliente(self, id_cliente):
-        """"Recibe el ID de un cliente y lo elimina"""
+        """"Recibe el ID de un cliente y lo elimina, en caso de contener trabajos, tambien los elimina"""
         C = self.BuscarPorID(id_cliente)
-        if C:
-            return self.RC.delete(C)
+        if C == self.ListaT.TrabajoL:
+            for I in self.ListaT.TrabajoL:
+                if I.cliente.id_cliente == id_cliente:
+                    self.RT.delete(I)
+                    self.ListaT = ListaTrabajos()
+                    B = self.RC.delete(C)
+                    self.ListaC = ListaClientes()
+                    return C
+        else:
+            B = self.RC.delete(C)
+            self.ListaC = ListaClientes()
+            return C
         return None
