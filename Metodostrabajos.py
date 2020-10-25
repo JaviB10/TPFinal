@@ -62,7 +62,7 @@ class ListaTrabajos:
         if T:
             self.RT.delete(T)
             self.TrabajoL = self.RT.get_all()
-            return T
+            return True
         return None
 
 
