@@ -35,24 +35,26 @@ class Menu:
 
     def MostrarMenu(self):
         print("""
-        MENU DEL SISTEMA:
+                                            | S I S T E M A | 
          
-        CLIENTES:
-        1. Ingresar un nuevo cliente
-        2. Mostrar todos los clientes
-        3. Buscar un cliente
-        4. Modificar los datos de un cliente
-        5. Borrar un cliente
+        MENU CLIENTES:                                                     MENU TRABAJOS:
         
-        TRABAJOS:
-        6. Cargar nuevo trabajo
-        7. Mostrar todos los trabajos
-        8. Finalizar un trabajo
-        9. Retirar un trabajo
-        10. Modificar los datos de un trabajo
-        11. Historial de trabajos de un cliente
-        12. Borrar un trabajo
-        0. Salir
+        1. Ingresar un nuevo cliente                                       6. Cargar nuevo trabajo
+        
+        2. Mostrar todos los clientes                                      7. Mostrar todos los trabajos
+        
+        3. Buscar un cliente                                               8. Finalizar un trabajo
+        
+        4. Modificar los datos de un cliente                               9. Retirar un trabajo
+        
+        5. Borrar un cliente                                               10. Modificar los datos de un trabajo
+        
+                                                                           11. Historial de trabajos de un cliente
+                                                                           
+                                                                           12. Borrar un trabajo
+                                                                           
+        
+        0. Salir del sistema
         """)
 
     def Ejecutar(self):
@@ -249,7 +251,7 @@ class Menu:
     def MostrarTrabajos(self, listat=None):
         "Muestra una lista con todos los trabajos"
         if listat == None:
-            listat = self.ListaT.TrabajoL
+            listat = self.RT.get_all()
         for trabajo in listat:
             print("========================================")
             print(trabajo)
@@ -262,7 +264,9 @@ class Menu:
             print(i.cliente)
             print("ID trabajo: ",i.id_trabajo,"- Fecha entrega real: ",i.fecha_entrega_real)
             print("========================================")
+        print("========================================")
         id_trabajo = int(input("Ingrese el ID del trabajo: "))
+        print("========================================")
         C = self.ListaT.BuscarPorID(id_trabajo)
         if C == None:
             print()
@@ -301,7 +305,9 @@ class Menu:
             print(i.cliente)
             print("ID trabajo: ",i.id_trabajo,"- Retirado: ",i.retirado)
             print("=========================================")
+        print("========================================")
         id_trabajo = int(input("Ingrese el ID del trabajo: "))
+        print("========================================")
         C = self.ListaT.BuscarPorID(id_trabajo)
         if C == None:
             print()
@@ -342,7 +348,9 @@ class Menu:
             print("Fecha entrega propuesta: ",i.fecha_entrega_propuesta)
             print("Descripcion: ",i.descripcion)
             print("=========================================")
+        print("========================================")
         id_trabajo = int(input("Ingrese el ID del trabajo: "))
+        print("========================================")
         C = self.ListaT.BuscarPorID(id_trabajo)
         if C == None:
             print()
@@ -403,7 +411,9 @@ class Menu:
             print("Descripcion: ",i.descripcion)
             print("Retirado: ",i.retirado)
             print("=========================================")
+        print("========================================")
         id_trabajo = int(input("Ingrese el ID del trabajo: "))
+        print("========================================")
         C = self.ListaT.BuscarPorID(id_trabajo)
         if C == None:
             print()
