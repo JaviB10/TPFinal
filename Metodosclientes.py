@@ -102,4 +102,6 @@ class ListaClientes:
         for I in self.RT.get_all():
             if I.cliente.id_cliente == id_cliente:
                 self.RT.delete(I)
-        return self.RC.delete(C)
+        self.RC.delete(C)
+        self.ClienteL = self.RC.get_all()
+        return True
