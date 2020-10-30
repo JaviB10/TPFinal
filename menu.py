@@ -137,25 +137,29 @@ class Menu:
 
     def BuscarCliente(self):
         "Solicita un ID, busca al cliente con ese ID y lo muestra"
-        print("\nEscogio la opcion para buscar un cliente\n")
-        while True:
-            try:
-                id_cliente = int(input("Ingrese el ID del cliente que desea buscar: "))
-            except ValueError:
-                print('Debe ingresar un numero')
-                continue
-            break
-        C = self.ListaC.BuscarPorID(id_cliente)
-        if C == None:
-            print("\n=================================================================")
-            print("El ID ingresado no pertenece a ningun cliente cargado actualmente")
-            print("=================================================================\n")
+        c = self.RC.get_all()
+        if c:
+            print("\nEscogio la opcion para buscar un cliente\n")
+            while True:
+                try:
+                    id_cliente = int(input("Ingrese el ID del cliente que desea buscar: "))
+                except ValueError:
+                    print('Debe ingresar un numero')
+                    continue
+                break
+            C = self.ListaC.BuscarPorID(id_cliente)
+            if C == None:
+                print("\n=================================================================")
+                print("El ID ingresado no pertenece a ningun cliente cargado actualmente")
+                print("=================================================================\n")
+            else:
+                print("\n===============================================\n")
+                print(C)
+                print("=================================================")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
         else:
-            print("\n===============================================\n")
-            print(C)
-            print("=================================================")
-        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
-
+            print("\nActualmente no se encuentra ningun cliente particular guardado en el sistema")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
 
     def ModificarDatosC(self):
         "Modificar los datos de un cliente, ya sea cliente corporativo o particular"
@@ -408,7 +412,7 @@ Ingrese una opcion: """)
                     print("========================================\n")
                     input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
         else:
-            print("\nActualmente no se encuentra ningun cliente guardado en el sistema")
+            print("\nActualmente no se encuentra ningun cliente guardado en el sistema por lo que no se puede cargar un nuevo trabajo")
             input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
 
     def MostrarTrabajos(self):
