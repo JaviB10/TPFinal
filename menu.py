@@ -443,38 +443,42 @@ Ingrese una opcion: """)
                 print("\nEl ID ingresado no pertenece a ningun trabajo guardado en el sistema")
                 input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
             else:
-                print("\n========================================\n")
-                print (C)
-                print("========================================")
-                tipo = "n"
-                while tipo not in ("F","f","c","C"):
-                    print("============================================================================")
-                    tipo = input("""¿Estas seguro que desea dar por finalizado el trabajo?
-                        
+                if C.fecha_entrega_real:
+                    print("El estado del trabajo ya se encuentra como finalizado")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                else:
+                    print("\n========================================\n")
+                    print (C)
+                    print("========================================")
+                    tipo = "n"
+                    while tipo not in ("F","f","c","C"):
+                        print("============================================================================")
+                        tipo = input("""¿Estas seguro que desea dar por finalizado el trabajo?
+                            
     F: Finalizar trabajo
     C: No finalizar
-        
+            
     Ingresa una opcion: """)
-                    print("============================================================================")
-                if tipo in ("F","f"):
-                    T = self.ListaT.TrabajoFinalizado(id_trabajo)
-                    if T == None:
-                        print("\n==============================================")
-                        print("Error al modificar la entrega real del trabajo")
-                        print("==============================================")
-                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                        print("============================================================================")
+                    if tipo in ("F","f"):
+                        T = self.ListaT.TrabajoFinalizado(id_trabajo)
+                        if T == None:
+                            print("\n==============================================")
+                            print("Error al modificar la entrega real del trabajo")
+                            print("==============================================")
+                            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                        else:
+                            print("\n====================================================")
+                            print("\nLa entrega real del trabajo fue modificada con exito")
+                            print("\n====================================================")
+                            print(C)
+                            print("====================================================")
+                            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
                     else:
-                        print("\n====================================================")
-                        print("\nLa entrega real del trabajo fue modificada con exito")
-                        print("\n====================================================")
-                        print(C)
-                        print("====================================================")
+                        print("\n=================================================================")
+                        print("No se realizo ninguna modificacion en la finalizacion del trabajo")
+                        print("=================================================================\n")
                         input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
-                else:
-                    print("\n=================================================================")
-                    print("No se realizo ninguna modificacion en la finalizacion del trabajo")
-                    print("=================================================================\n")
-                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
         else:
             print("\nActualmente no se encuentra ningun trabajo cargado en el sistema")
             input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
@@ -501,38 +505,42 @@ Ingrese una opcion: """)
                 print("\nEl ID ingresado no pertenece a ningun trabajo guardado en el sistema")
                 input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
             else:
-                print("\n========================================")
-                print(C)
-                print("========================================")
-                tipo = "n"
-                while tipo not in ("R","r","c","C"):
-                    print("\n======================================================")
-                    tipo = input("""¿Estas seguro que desea dar por finalizado el trabajo?
-                    
+                if C.retirado == True:
+                    print("\nEl estado del trabajo ya se encuntra como retirado")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                else:
+                    print("\n========================================")
+                    print(C)
+                    print("========================================")
+                    tipo = "n"
+                    while tipo not in ("R","r","c","C"):
+                        print("\n======================================================")
+                        tipo = input("""¿Estas seguro que desea dar por finalizado el trabajo?
+                        
     R: Retirar el trabajo
     C: No retirar el trabajo
-    
+        
     Ingresa una opcion: """)
-                    print("======================================================")
-                if tipo in ("R","r"):
-                    T = self.ListaT.Trabajo_retirado(id_trabajo)
-                    if T == None:
-                        print("========================================")
-                        print("Error al retirar el trabajo")
-                        print("========================================")
-                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                        print("======================================================")
+                    if tipo in ("R","r"):
+                        T = self.ListaT.Trabajo_retirado(id_trabajo)
+                        if T == None:
+                            print("========================================")
+                            print("Error al retirar el trabajo")
+                            print("========================================")
+                            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                        else:
+                            print("\n========================================")
+                            print("El trabajo fue retirado con exito")
+                            print("========================================\n")
+                            print(C)
+                            print("\n========================================")
+                            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
                     else:
-                        print("\n========================================")
-                        print("El trabajo fue retirado con exito")
-                        print("========================================\n")
-                        print(C)
-                        print("\n========================================")
+                        print("\n===========================================================")
+                        print("No se realizo ninguna modificacion en el retiro del trabajo")
+                        print("===========================================================")
                         input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
-                else:
-                    print("\n===========================================================")
-                    print("No se realizo ninguna modificacion en el retiro del trabajo")
-                    print("===========================================================")
-                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
         else:
             print("\nActualmente no se encuentra ningun trabajo cargado en el sistema")
             input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
