@@ -109,26 +109,28 @@ class Menu:
 
     def MostrarClientes(self):
         "Muestra todos los clientes"
-        l = self.RC.get_all_corporativos()
-        print("""         =====================""")
-        print("""         CLIENTES CORPORATIVOS""")
-        print("""         =====================""")
-        if l:
-            for i in l:
-                print("========================================")
-                print(i)
-                print("========================================")
-        t = self.RC.get_all_particulares()
-        print("""         =====================""")
-        print("""         CLIENTES PARTICULARES""")
-        print("""         =====================""")
-        if t:
-            for i in t:
-                print("========================================")
-                print(i)
-                print("========================================")
-        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
-        if l and t == None:
+        c = self.RC.get_all()
+        if c:
+            l = self.RC.get_all_corporativos()
+            print("""         =====================""")
+            print("""         CLIENTES CORPORATIVOS""")
+            print("""         =====================""")
+            if l:
+                for i in l:
+                    print("========================================")
+                    print(i)
+                    print("========================================")
+            t = self.RC.get_all_particulares()
+            print("""         =====================""")
+            print("""         CLIENTES PARTICULARES""")
+            print("""         =====================""")
+            if t:
+                for i in t:
+                    print("========================================")
+                    print(i)
+                    print("========================================")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+        else:
             print("\nActualmente no se encuentra ningun cliente cargado en el sistema")
             input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
 
@@ -450,17 +452,17 @@ Ingrese una opcion: """)
                     print("\n========================================\n")
                     print (C)
                     print("========================================")
-                    tipo = "n"
-                    while tipo not in ("F","f","c","C"):
+                    tipo = "w"
+                    while tipo not in ("S","s","N","n"):
                         print("============================================================================")
                         tipo = input("""¿Estas seguro que desea dar por finalizado el trabajo?
                             
-    F: Finalizar trabajo
-    C: No finalizar
+    S: Finalizar trabajo
+    N: No finalizar
             
     Ingresa una opcion: """)
                         print("============================================================================")
-                    if tipo in ("F","f"):
+                    if tipo in ("S","s"):
                         T = self.ListaT.TrabajoFinalizado(id_trabajo)
                         if T == None:
                             print("\n==============================================")
@@ -512,17 +514,17 @@ Ingrese una opcion: """)
                     print("\n========================================")
                     print(C)
                     print("========================================")
-                    tipo = "n"
-                    while tipo not in ("R","r","c","C"):
+                    tipo = "w"
+                    while tipo not in ("S","s","N","n"):
                         print("\n======================================================")
                         tipo = input("""¿Estas seguro que desea dar por finalizado el trabajo?
                         
-    R: Retirar el trabajo
-    C: No retirar el trabajo
+    S: Retirar el trabajo
+    N: No retirar el trabajo
         
     Ingresa una opcion: """)
                         print("======================================================")
-                    if tipo in ("R","r"):
+                    if tipo in ("s","S"):
                         T = self.ListaT.Trabajo_retirado(id_trabajo)
                         if T == None:
                             print("========================================")
@@ -713,15 +715,15 @@ Ingrese una opcion: """)
                 print("\n=========================================")
                 print(C)
                 print("=========================================\n")
-                tipo = "n"
-                while tipo not in ("E","e","C","c"):
+                tipo = "w"
+                while tipo not in ("S","s","N","n"):
                     tipo = input("""¿Estas seguro que desea eliminar el trabajo?
                     
-    E: Eliminar trabajo
-    C: No eliminar trabajo
+    S: Eliminar trabajo
+    N: No eliminar trabajo
     
     Ingresa una opcion: """)
-                if tipo in ("E","e"):
+                if tipo in ("S","s"):
                     T = self.ListaT.EliminarTrabajo(id_trabajo)
                     if T == None:
                         print("=========================================")
