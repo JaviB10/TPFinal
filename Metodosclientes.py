@@ -42,7 +42,6 @@ class ListaClientes:
         for T in self.ClienteL:
             if T.id_cliente == int(id_cliente):
                 return (T)
-        print("El ID ingresado no pertenece a ningun cliente")
         return None
 
 
@@ -102,6 +101,7 @@ class ListaClientes:
         for I in self.RT.get_all():
             if I.cliente.id_cliente == id_cliente:
                 self.RT.delete(I)
+            self.ListaT = self.RT.get_all()
         self.RC.delete(C)
         self.ClienteL = self.RC.get_all()
         return True
