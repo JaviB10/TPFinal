@@ -34,9 +34,9 @@ class Menu:
 
 
     def MostrarMenu(self):
-        print("""
-                                            | S I S T E M A | 
-         
+        print("""                                              ===============
+                                               S I S T E M A 
+                                              ===============
         MENU CLIENTES:                                                     MENU TRABAJOS:
         
         1. Ingresar un nuevo cliente                                       6. Cargar nuevo trabajo
@@ -61,7 +61,7 @@ class Menu:
         "Mostrar y responder opciones"
         while True:
             self.MostrarMenu()
-            opcion = input("Ingresar una opcion: ")
+            opcion = input("INGRESA UNA OPCION: ")
             accion = self.opciones.get(opcion)
             if accion:
                 accion()
@@ -72,12 +72,20 @@ class Menu:
         "Ingresa un nuevo cliente, ya sea corporativo o particular"
         tipo = "N"
         while tipo not in ("C", "c", "P", "p"):
-            tipo = input("Ingrese el tipo de cliente: C: Corporativo / P: Particular:")
+            tipo = input("""
+    Escogio la opcion para ingresar un nuevo cliente, por favor elija el tipo de cliente e ingreselo
+    
+    C: Corporativo
+    P: Particular
+    
+    Ingrese el tipo de cliente: """)
         if tipo in ("C", "c"):
+            print("\nA continuacion se pediran los datos correspondientes al nuevo cliente\n")
             NombreEmpresa = input("Ingrese el nombre de la empresa: ")
             NombreContacto = input("Ingrese el nombre del contacto: ")
             TelCont = input("Ingrese el telefono del contacto: ")
         else:
+            print("\nA continuacion se pediran los datos correspondientes al nuevo cliente\n")
             Nombre = input("Ingrese el nombre: ")
             Apellido = input("Ingrese el apellido: ")
         Tel = input("Ingrese el telefono: ")
@@ -87,395 +95,706 @@ class Menu:
         else:
             C = self.ListaC.NuevoClientePart(Nombre, Apellido, Tel, Mail)
         if C is None:
-            print("========================================")
-            print("Error en la carga del nuevo cliente")
-            print("========================================")
+            print("===========================================")
+            print("Ocurrio un error al cargar al nuevo cliente")
+            print("===========================================")
         else:
-            print("========================================")
-            print("El clientes se cargo con exito")
-            print("========================================")
+            print("\n===========================================")
+            print("El clientes fue cargado con exito")
+            print("===========================================\n")
             print(C)
-            print("========================================")
+            print("===========================================")
+        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
 
 
-    def MostrarClientes(self, Lista = None):
+    def MostrarClientes(self):
         "Muestra todos los clientes"
-        if Lista == None:
-            Lista = self.ListaC.ClienteL
-        for Cliente in Lista:
-            print("========================================")
-            print(Cliente)
-            print("========================================")
+        l = self.RC.get_all_corporativos()
+        print("""         =====================""")
+        print("""         CLIENTES CORPORATIVOS""")
+        print("""         =====================""")
+        if l:
+            for i in l:
+                print("========================================")
+                print(i)
+                print("========================================")
+        t = self.RC.get_all_particulares()
+        print("""         =====================""")
+        print("""         CLIENTES PARTICULARES""")
+        print("""         =====================""")
+        if t:
+            for i in t:
+                print("========================================")
+                print(i)
+                print("========================================")
+        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+        if l and t == None:
+            print("\nActualmente no se encuentra ningun cliente cargado en el sistema")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
 
     def BuscarCliente(self):
-        "Solicita un ID y muestre el cliente"
-        print("========================================")
-        IDC = int(input("ingrese el ID del cliente a buscar: "))
-        print("========================================")
-        C = self.ListaC.BuscarPorID(IDC)
+        "Solicita un ID, busca al cliente con ese ID y lo muestra"
+        print("\nEscogio la opcion para buscar un cliente\n")
+        while True:
+            try:
+                id_cliente = int(input("Ingrese el ID del cliente que desea buscar: "))
+            except ValueError:
+                print('Debe ingresar un numero')
+                continue
+            break
+        C = self.ListaC.BuscarPorID(id_cliente)
         if C == None:
-            print("========================================")
-            print("Ocurrio un error al buscar al cliente")
-            print("========================================")
+            print("\n=================================================================")
+            print("El ID ingresado no pertenece a ningun cliente cargado actualmente")
+            print("=================================================================\n")
         else:
-            print("========================================")
+            print("\n===============================================\n")
             print(C)
-            print("========================================")
+            print("=================================================")
+        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
 
     def ModificarDatosC(self):
         "Modificar los datos de un cliente, ya sea cliente corporativo o particular"
         tipo = "N"
         while tipo not in ("C", "c", "P", "p"):
-            print("======================================================================================")
-            tipo = input("Ingrese el tipo de cliente que desea modificar: C: Corporativo / P: Particular:")
-            print("======================================================================================")
+            tipo = input("""
+    Escogio la opcion para modificar un cliente, por favor elija el tipo de cliente e ingreselo
+    
+    C: Corporativo
+    P: Particular
+    
+    Ingrese el tipo de cliente que desea modificar: """)
         if tipo in ("C","c"):
-            print("========================================")
-            print("CLIENTES CORPORATIVOS")
-            print("========================================")
-            for I in self.RC.get_all_corporativos():
-                print("========================================")
-                print(I)
-                print("========================================")
+            l = self.RC.get_all_corporativos()
+            if l:
+                print("\n""         =====================""")
+                print("""         CLIENTES CORPORATIVOS""")
+                print("""         =====================""")
+                for I in l:
+                    print("========================================\n")
+                    print(I)
+                    print("========================================\n")
+                while True:
+                    try:
+                        id_cliente = int(input("Ingrese el ID del cliente: "))
+                    except ValueError:
+                        print('Debe ingresar un numero')
+                        continue
+                    break
+                Cliente = self.ListaC.BuscarPorID(id_cliente)
+                if Cliente:
+                    print("========================================\n")
+                    print(Cliente)
+                    print("=================================================================================")
+                    print("Modifique el campo que desee, de no querer modificar algun campo dejelo vacio")
+                    print("=================================================================================\n")
+                    NombreEmpresa = input("Ingrese el nombre de la empresa: ")
+                    NombreContacto = input("Ingrese el nombre del contacto: ")
+                    TelCont = input("Ingrese el telefono del contacto: ")
+                    Tel = input("Ingrese el telefono: ")
+                    Mail = input("Ingrese el mail: ")
+                    C = self.ListaC.ModificarDatosCC(NombreEmpresa, NombreContacto, TelCont, Tel, Mail, id_cliente)
+                    if C == None:
+                        print("\n========================================\n")
+                        print("Ocurrio un error al modificar los datos del cliente")
+                        print("========================================\n")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                    else:
+                        print("\n===============================================================\n")
+                        print("""Los datos del cliente se modificaron con exito
+A continuacion se podran ver los datos del cliente actualizados""")
+                        print("\n===============================================================\n")
+                        print("\n========================================")
+                        print(Cliente)
+                        print("========================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                else:
+                    print("\nEl ID ingresado no pertenece a ningun cliente corporativo guardado en el sistema")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+            else:
+                print("\nActualmente no se encuentra ningun cliente corporativo guardado en el sistema")
+                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
         else:
-            print("========================================")
-            print("CLIENTES PARTICULARES")
-            print("========================================")
-            for I in self.RC.get_all_particulares():
-                print("========================================")
-                print(I)
-                print("========================================")
-        print("========================================")
-        id_cliente = int(input("Ingrese el ID del cliente: "))
-        print("========================================")
-        Cliente = self.ListaC.BuscarPorID(id_cliente)
-        if Cliente:
-            print("========================================")
-            print(Cliente)
-            print("========================================")
-            print("======================================================================================")
-            print("Modifique el campo que desee, de no querer modificar algun campo dejelo vacio")
-            print("======================================================================================")
-            if tipo in ("C","c"):
-                NombreEmpresa = input("Ingrese el nombre de la empresa: ")
-                NombreContacto = input("Ingrese el nombre del contacto: ")
-                TelCont = input("Ingrese el telefono del contacto: ")
+            l = self.RC.get_all_particulares()
+            if l:
+                print("\n""         =====================""")
+                print("""         CLIENTES PARTICULARES""")
+                print("""         =====================""")
+                for I in l:
+                    print("========================================\n")
+                    print(I)
+                    print("========================================\n")
+                while True:
+                    try:
+                        id_cliente = int(input("Ingrese el ID del cliente: "))
+                    except ValueError:
+                        print('Debe ingresar un numero')
+                        continue
+                    break
+                Cliente = self.ListaC.BuscarPorID(id_cliente)
+                if Cliente:
+                    print("\n========================================\n")
+                    print(Cliente)
+                    print("========================================\n")
+                    print("==============================================================================")
+                    print("Modifique el campo que desee, de no querer modificar algun campo dejelo vacio")
+                    print("==============================================================================\n")
+                    Nombre = input("Ingrese el nombre: ")
+                    Apellido = input("Ingrese el apellido: ")
+                    Tel = input("Ingrese el telefono: ")
+                    Mail = input("Ingrese el mail: ")
+                    C = self.ListaC.ModificarDatosCP(Nombre, Apellido, Tel, Mail, id_cliente)
+                    if C == None:
+                        print("\n================================================\n")
+                        print("Ocurrio un error al modificar los datos del cliente")
+                        print("==================================================\n")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                    else:
+                        print("\n===============================================================\n")
+                        print("""Los datos del cliente fueron modificaros con exito
+A continuacion se podran ver los datos del cliente actualizados""")
+                        print("\n===============================================================\n")
+                        print("========================================\n")
+                        print(Cliente)
+                        print("========================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                else:
+                    print("\nEl ID ingresado no pertenece a ningun cliente particular guardado en el sistema")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
             else:
-                Nombre = input("Ingrese el nombre: ")
-                Apellido = input("Ingrese el apellido: ")
-            Tel = input("Ingrese el telefono: ")
-            Mail = input("Ingrese el mail: ")
-            if tipo in ("C","c"):
-                C = self.ListaC.ModificarDatosCC(NombreEmpresa, NombreContacto, TelCont, Tel, Mail, id_cliente)
-            else:
-                C = self.ListaC.ModificarDatosCP(Nombre, Apellido, Tel, Mail, id_cliente)
-            if C is None:
-                print("========================================")
-                print("Ocurrio un error al modificar los datos del cliente")
-                print("========================================")
-            else:
-                print("========================================")
-                print("Los datos del cliente se modificaron con exito")
-                print("========================================")
-                print(Cliente)
-                print("========================================")
+                print("\nActualmente no se encuentra ningun cliente particular guardado en el sistema")
+                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
 
     def BorrarCliente(self):
         "Solicita un ID y borra al cliente, en caso de que tenga trabajos pendientes, tambien los borra"
-        for i in self.RC.get_all_particulares():
-            print("========================================")
-            print("ID cliente: ",i.id_cliente,"- Nombre: ",i.nombre)
-            print("========================================")
-        for i in self.RC.get_all_corporativos():
-            print("========================================")
-            print("ID cliente: ", i.id_cliente, "- Nombre: ", i.nombre_empresa)
-            print("========================================")
-        id_cliente = int(input("ingrese el ID del cliente a borrar: "))
-        D = self.ListaC.BuscarPorID(id_cliente)
-        if D:
-            print("========================================")
-            print(D)
-            print("========================================")
-            U = "J"
-            while U not in ("S","s","N","n"):
-                print("======================================================================================")
-                U = input("¿Estas seguro que desea eliminar al cliente? S: Si / N: No")
-                print("======================================================================================")
-            if U in ("S","s"):
-                B = self.ListaC.EliminarCliente(id_cliente)
-                if B == None:
-                    print("========================================")
-                    print("Ocurrio un error al querer borrar al cliente")
-                    print("========================================")
+        l = self.RC.get_all_corporativos()
+        if l:
+            print("""         =====================""")
+            print("""         CLIENTES CORPORATIVOS""")
+            print("""         =====================""")
+            for i in l:
+                print("========================================")
+                print("ID cliente: ",i.id_cliente,"- Nombre: ",i.nombre_empresa)
+                print("========================================")
+        t = self.RC.get_all_particulares()
+        if t:
+            print("""         =====================""")
+            print("""         CLIENTES PARTICULARES""")
+            print("""         =====================""")
+            for i in t:
+                print("========================================")
+                print("ID cliente: ", i.id_cliente, "- Nombre: ", i.nombre)
+                print("========================================\n")
+        if l or t:
+            while True:
+                try:
+                    id_cliente = int(input("Ingrese el ID del cliente a borrar: "))
+                except ValueError:
+                    print('Debe ingresar un numero')
+                    continue
+                break
+            D = self.ListaC.BuscarPorID(id_cliente)
+            if D:
+                print("\n========================================\n")
+                print(D)
+                print("========================================\n")
+                U = "J"
+                while U not in ("S","s","N","n"):
+                    U = input("""¿Estas seguro que desea eliminar al cliente? 
+    
+    S: Si borrar al cliente
+    N: No borrar al cliente
+    
+Ingrese una opcion: """)
+                if U in ("S","s"):
+                    B = self.ListaC.EliminarCliente(id_cliente)
+                    if B == None:
+                        print("========================================")
+                        print("Ocurrio un error al querer borrar al cliente")
+                        print("========================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                    else:
+                        print("\n========================================")
+                        print("El cliente fue borrado con exito")
+                        print("========================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
                 else:
-                    print("========================================")
-                    print("El cliente fue borrado con exito")
-                    print("========================================")
+                    print("\nHa decidido no borrar al cliente")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
             else:
-                self.Ejecutar()
+                print("\nEl ID ingresado no pertenece a ningun cliente guardado en el sistema")
+                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+        else:
+            print("\nActualmente no se encuentra ningun cliente guardado en el sistema")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
 
     def CargarNuevoT(self):
         "Solicita el ID de un cliente y carga los datos de un nuevo trabajo"
-        for i in self.RC.get_all_particulares():
-            print("========================================")
-            print("ID cliente: ",i.id_cliente,"- Nombre: ",i.nombre)
-            print("========================================")
-        for i in self.RC.get_all_corporativos():
-            print("========================================")
-            print("ID cliente: ", i.id_cliente, "- Nombre: ", i.nombre_empresa)
-            print("========================================")
-        id_cliente = int(input("Ingrese el ID del cliente: "))
-        C = self.ListaC.BuscarPorID(id_cliente)
-        if C == None:
-            print()
-        else:
-            fecha_ingreso = date.today()
-            print("La fecha de ingreso es: ", fecha_ingreso)
-            print("A continuacion ingrese la fecha de entrega propuesta")
-            dia = int(input("Ingrese el dia (1 a 31): "))
-            mes = int(input("Ingrese el mes (1 a 12): "))
-            anio = int(input("Ingrese el año: "))
-            fecha_entrega_propuesta = date(anio, mes, dia)
-            descripcion = input("Ingrese la descripcion del nuevo trabajo: ")
-            T = self.ListaT.NuevoTrabajo(C, fecha_ingreso, fecha_entrega_propuesta, descripcion)
-            if T == None:
+        l = self.RC.get_all_corporativos()
+        if l:
+            print("""         =====================""")
+            print("""         CLIENTES CORPORATIVOS""")
+            print("""         =====================""")
+            for i in l:
                 print("========================================")
-                print("Ocurrio un error al cargar el nuevo trabajo")
+                print("ID cliente: ", i.id_cliente, "- Nombre: ", i.nombre_empresa)
                 print("========================================")
+        t = self.RC.get_all_particulares()
+        if t:
+            print("""         =====================""")
+            print("""         CLIENTES PARTICULARES""")
+            print("""         =====================""")
+            for i in t:
+                print("========================================")
+                print("ID cliente: ", i.id_cliente, "- Nombre: ", i.nombre)
+                print("========================================\n")
+        if l or t:
+            while True:
+                try:
+                    id_cliente = int(input("Ingrese el ID del cliente: "))
+                except ValueError:
+                    print('Debe ingresar un numero')
+                    continue
+                break
+            C = self.ListaC.BuscarPorID(id_cliente)
+            if C == None:
+                print("\nEl ID ingresado no pertenece a ningun cliente guardado en el sistema")
+                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
             else:
-                print("========================================")
-                print("El nuevo trabajo se cargo con exito")
-                print(T)
-                print("========================================")
+                fecha_ingreso = date.today()
+                print("\nLa fecha de ingreso es: ", fecha_ingreso)
+                print("\nA continuacion ingrese la fecha de entrega propuesta")
+                while True:
+                    try:
+                        dia = int(input("Ingrese el dia (1 a 31): "))
+                    except ValueError:
+                        print('Debe ingresar un numero del 1 al 31')
+                        continue
+                    break
+                while True:
+                    try:
+                        mes = int(input("Ingrese el mes (1 a 12): "))
+                    except ValueError:
+                        print('Debe ingresar un numero del 1 al 12')
+                        continue
+                    break
+                while True:
+                    try:
+                        anio = int(input("Ingrese el año: "))
+                    except ValueError:
+                        print('Debe ingresar un numero')
+                        continue
+                    break
+                fecha_entrega_propuesta = date(anio, mes, dia)
+                descripcion = input("\nIngrese la descripcion del nuevo trabajo: ")
+                T = self.ListaT.NuevoTrabajo(C, fecha_ingreso, fecha_entrega_propuesta, descripcion)
+                if T == None:
+                    print("\n========================================\n")
+                    print("Ocurrio un error al cargar el nuevo trabajo")
+                    print("========================================")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
 
-    def MostrarTrabajos(self, listat=None):
+                else:
+                    print("\n========================================")
+                    print("El nuevo trabajo se cargo con exito\n")
+                    print(T)
+                    print("========================================\n")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+        else:
+            print("\nActualmente no se encuentra ningun cliente guardado en el sistema")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
+    def MostrarTrabajos(self):
         "Muestra una lista con todos los trabajos"
-        if listat == None:
-            listat = self.RT.get_all()
-        for trabajo in listat:
-            print("========================================")
-            print(trabajo)
-            print("========================================")
+        Lista = self.RT.get_all()
+        if Lista:
+            for Cliente in Lista:
+                print("\n===========================================\n")
+                print(Cliente)
+                print("===========================================")
+        else:
+            print("\nActualmente no se encuentra ningun trabajo cargado en el sistema")
+        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
 
     def FinalizarTrabajo(self):
         "Solicita un ID trabajo y modifica la fecha de entrega real"
-        for i in self.RT.get_all():
-            print("========================================")
-            print(i.cliente)
-            print("ID trabajo: ",i.id_trabajo,"- Fecha entrega real: ",i.fecha_entrega_real)
-            print("========================================")
-        print("========================================")
-        id_trabajo = int(input("Ingrese el ID del trabajo: "))
-        print("========================================")
-        C = self.ListaT.BuscarPorID(id_trabajo)
-        if C == None:
-            print()
-        else:
-            print("========================================")
-            print (C)
-            print("========================================")
-            tipo = "n"
-            while tipo not in ("F","f","c","C"):
-                print("============================================================================")
-                tipo = input("Desea dar por finalizado el trabajo: F: Finalizado / C: No finalizar")
-                print("============================================================================")
-            if tipo in ("F","f"):
-                T = self.ListaT.TrabajoFinalizado(id_trabajo)
-                if T == None:
-                    print("==============================================")
-                    print("Error al modificar la entrega real del trabajo")
-                    print("==============================================")
-                else:
-                    print("====================================================")
-                    print("La entrega real del trabajo fue modificada con exito")
-                    print("====================================================")
-                    print(C)
-                    print("====================================================")
+        t = self.RT.get_all()
+        if t:
+            for i in t:
+                print("========================================")
+                print(i.cliente)
+                print("ID trabajo: ",i.id_trabajo,"- Fecha entrega real: ",i.fecha_entrega_real)
+                print("========================================")
+            print("\n========================================")
+            while True:
+                try:
+                    id_trabajo = int(input("Ingrese el ID del trabajo: "))
+                except ValueError:
+                    print('Debe ingresar un numero')
+                    continue
+                break
+            C = self.ListaT.BuscarPorID(id_trabajo)
+            if C == None:
+                print("\nEl ID ingresado no pertenece a ningun trabajo guardado en el sistema")
+                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
             else:
-                print("================================================")
-                print("No se realizo ninguna modificacion en el trabajo")
-                print("================================================")
-                print(C)
-                print("================================================")
+                print("\n========================================\n")
+                print (C)
+                print("========================================")
+                tipo = "n"
+                while tipo not in ("F","f","c","C"):
+                    print("============================================================================")
+                    tipo = input("""¿Estas seguro que desea dar por finalizado el trabajo?
+                        
+    F: Finalizar trabajo
+    C: No finalizar
+        
+    Ingresa una opcion: """)
+                    print("============================================================================")
+                if tipo in ("F","f"):
+                    T = self.ListaT.TrabajoFinalizado(id_trabajo)
+                    if T == None:
+                        print("\n==============================================")
+                        print("Error al modificar la entrega real del trabajo")
+                        print("==============================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                    else:
+                        print("\n====================================================")
+                        print("\nLa entrega real del trabajo fue modificada con exito")
+                        print("\n====================================================")
+                        print(C)
+                        print("====================================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                else:
+                    print("\n=================================================================")
+                    print("No se realizo ninguna modificacion en la finalizacion del trabajo")
+                    print("=================================================================\n")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+        else:
+            print("\nActualmente no se encuentra ningun trabajo cargado en el sistema")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
 
     def RetirarTrabajo(self):
         "Solicita un ID trabajo y lo marca como retirado"
-        for i in self.RT.get_all():
-            print("========================================")
-            print(i.cliente)
-            print("ID trabajo: ",i.id_trabajo,"- Retirado: ",i.retirado)
-            print("=========================================")
-        print("========================================")
-        id_trabajo = int(input("Ingrese el ID del trabajo: "))
-        print("========================================")
-        C = self.ListaT.BuscarPorID(id_trabajo)
-        if C == None:
-            print()
-        else:
-            print("========================================")
-            print(C)
-            print("========================================")
-            tipo = "n"
-            while tipo not in ("R","r","c","C"):
-                print("============================================================================================")
-                tipo = input("Desea dar por finalizado el trabajo: R: Retirar el trabajo / C: No retirar el trabajo")
-                print("============================================================================================")
-            if tipo in ("R","r"):
-                T = self.ListaT.Trabajo_retirado(id_trabajo)
-                if T == None:
-                    print("========================================")
-                    print("Error al retirar el trabajo")
-                    print("========================================")
-                else:
-                    print("========================================")
-                    print("El trabajo fue retirado con exito")
-                    print("========================================")
-                    print(C)
-                    print("========================================")
+        t = self.RT.get_all()
+        if t:
+            for i in t:
+                print("\n========================================")
+                print(i.cliente)
+                print("ID trabajo: ",i.id_trabajo,"- Retirado: ",i.retirado)
+                print("=========================================\n")
+            while True:
+                try:
+                    id_trabajo = int(input("Ingrese el ID del trabajo: "))
+                except ValueError:
+                    print('Debe ingresar un numero')
+                    continue
+                break
+            C = self.ListaT.BuscarPorID(id_trabajo)
+            if C == None:
+                print("\nEl ID ingresado no pertenece a ningun trabajo guardado en el sistema")
+                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
             else:
-                print("================================================")
-                print("No se realizo ninguna modificacion en el trabajo")
-                print("================================================")
+                print("\n========================================")
                 print(C)
-                print("================================================")
+                print("========================================")
+                tipo = "n"
+                while tipo not in ("R","r","c","C"):
+                    print("\n======================================================")
+                    tipo = input("""¿Estas seguro que desea dar por finalizado el trabajo?
+                    
+    R: Retirar el trabajo
+    C: No retirar el trabajo
+    
+    Ingresa una opcion: """)
+                    print("======================================================")
+                if tipo in ("R","r"):
+                    T = self.ListaT.Trabajo_retirado(id_trabajo)
+                    if T == None:
+                        print("========================================")
+                        print("Error al retirar el trabajo")
+                        print("========================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                    else:
+                        print("\n========================================")
+                        print("El trabajo fue retirado con exito")
+                        print("========================================\n")
+                        print(C)
+                        print("\n========================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                else:
+                    print("\n===========================================================")
+                    print("No se realizo ninguna modificacion en el retiro del trabajo")
+                    print("===========================================================")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+        else:
+            print("\nActualmente no se encuentra ningun trabajo cargado en el sistema")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
 
     def ModificarDatosT(self):
         "Solicita un ID trabajo y modifica los datos del trabajo"
-        for i in self.RT.get_all():
-            print("========================================")
-            print("ID trabajo: ",i.id_trabajo)
-            print("Fecha de ingreso: ",i.fecha_ingreso)
-            print("Fecha entrega propuesta: ",i.fecha_entrega_propuesta)
-            print("Descripcion: ",i.descripcion)
-            print("=========================================")
-        print("========================================")
-        id_trabajo = int(input("Ingrese el ID del trabajo: "))
-        print("========================================")
-        C = self.ListaT.BuscarPorID(id_trabajo)
-        if C == None:
-            print()
-        else:
-            print("=========================================")
-            print (C)
-            print("=========================================")
-            print("Modifique el campo que desee, de no querer modificar algun campo dejelo vacio")
-            print("=========================================")
-            tipo = "n"
-            while tipo not in ("I", "i", "P", "p", "D", "d", "C", "c"):
-                while tipo not in ("C", "c"):
-                    print("==================================================================================================================================================")
-                    tipo = input("Si desea hacer alguna modificacion ingrese: I: Fecha de ingreso / P: Fecha entrega propuesta / D: Descripcion / C: Volver al menu principal")
-                    print("==================================================================================================================================================")
-                    if tipo in ("I","i"):
-                        print("=========================================")
-                        print("Modificar fecha de ingreso")
-                        dia = int(input("Ingrese el dia (1 a 31): "))
-                        mes = int(input("Ingrese el mes (1 a 12): "))
-                        anio = int(input("Ingrese el año: "))
-                        FechaIngreso = date(anio, mes, dia)
-                        T = self.ListaT.ModificarDatosT(FechaIngreso, C.fecha_entrega_real, C.descripcion, id_trabajo)
-                    if tipo in ("P","p"):
-                        print("=========================================")
-                        print("Modificar fecha de entregra propuesta")
-                        dia = int(input("Ingrese el dia (1 a 31): "))
-                        mes = int(input("Ingrese el mes (1 a 12): "))
-                        anio = int(input("Ingrese el año: "))
-                        FechaEntregaPropuesta = date(anio, mes, dia)
-                        T = self.ListaT.ModificarDatosT(C.fecha_ingreso, FechaEntregaPropuesta, C.descripcion, id_trabajo)
-                    if tipo in ("D","d"):
-                        print("=========================================")
-                        print("Modificar la descripcion del trabajo")
-                        Descripcion = input("Ingrese la descripcion del trabajo: ")
-                        T = self.ListaT.ModificarDatosT(C.fecha_ingreso, C.fecha_entrega_real, Descripcion, id_trabajo)
-            if tipo in ("C","c"):
-                self.Ejecutar()
-            if T == None:
-                print("=========================================")
-                print("Error al modificar el trabajo")
-                print("=========================================")
+        t = self.RT.get_all()
+        if t:
+            for i in t:
+                print("\n========================================")
+                print("ID trabajo: ",i.id_trabajo)
+                print("Fecha de ingreso: ",i.fecha_ingreso)
+                print("Fecha entrega propuesta: ",i.fecha_entrega_propuesta)
+                print("Descripcion: ",i.descripcion)
+                print("========================================\n")
+            while True:
+                try:
+                    id_trabajo = int(input("Ingrese el ID del trabajo: "))
+                except ValueError:
+                    print('Debe ingresar un numero')
+                    continue
+                break
+            C = self.ListaT.BuscarPorID(id_trabajo)
+            if C == None:
+                print("\nEl ID ingresado no pertenece a ningun trabajo guardado en el sistema")
+                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
             else:
-                print("=========================================")
-                print("El trabajo fue modificado con exito")
-                print("=========================================")
-                print(C)
-                print("=========================================")
+                print("\n=========================================")
+                print (C.cliente)
+                print("Trabajo:")
+                print("Fecha de ingreso: ",C.fecha_ingreso)
+                print("Fecha entrega propuesta: ",C.fecha_entrega_propuesta)
+                print("Descripcion: ",C.descripcion)
+                print("\n=============================================================================")
+                print("Modifique el campo que desee, de no querer modificar algun campo dejelo vacio")
+                print("=============================================================================")
+                tipo = "n"
+                while tipo not in ("I", "i", "P", "p", "D", "d", "C", "c"):
+                    while tipo not in ("C", "c"):
+                        tipo = input("""\n¿Estas seguro que desea hacer alguna modificacion?
+                        
+    I: Fecha de ingreso
+    P: Fecha entrega propuesta
+    D: Descripcion
+    C: No deseo realizar una modificacion
+    
+    Ingrese una opcion: """)
+                        if tipo in ("I","i"):
+                            print("==========================")
+                            print("Modificar fecha de ingreso\n")
+                            while True:
+                                try:
+                                    dia = int(input("Ingrese el dia (1 a 31): "))
+                                except ValueError:
+                                    print('Debe ingresar un numero del 1 al 31')
+                                    continue
+                                break
+                            while True:
+                                try:
+                                    mes = int(input("Ingrese el mes (1 a 12): "))
+                                except ValueError:
+                                    print('Debe ingresar un numero del 1 al 12')
+                                    continue
+                                break
+                            while True:
+                                try:
+                                    anio = int(input("Ingrese el año: "))
+                                except ValueError:
+                                    print('Debe ingresar un numero')
+                                    continue
+                                break
+                            FechaIngreso = date(anio, mes, dia)
+                            T = self.ListaT.ModificarDatosT(FechaIngreso, C.fecha_entrega_real, C.descripcion, id_trabajo)
+                            if T == None:
+                                print("=========================================")
+                                print("Error al modificar el trabajo")
+                                print("=========================================")
+                                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                            else:
+                                print("\n=========================================")
+                                print("Los datos que decidio modificar se modificaron con exito")
+                                print("=========================================\n")
+                                print(C)
+                                print("=========================================")
+                        if tipo in ("P","p"):
+                            print("=====================================")
+                            print("Modificar fecha de entregra propuesta\n")
+                            while True:
+                                try:
+                                    dia = int(input("Ingrese el dia (1 a 31): "))
+                                except ValueError:
+                                    print('Debe ingresar un numero del 1 al 31')
+                                    continue
+                                break
+                            while True:
+                                try:
+                                    mes = int(input("Ingrese el mes (1 a 12): "))
+                                except ValueError:
+                                    print('Debe ingresar un numero del 1 al 12')
+                                    continue
+                                break
+                            while True:
+                                try:
+                                    anio = int(input("Ingrese el año: "))
+                                except ValueError:
+                                    print('Debe ingresar un numero')
+                                    continue
+                                break
+                            FechaEntregaPropuesta = date(anio, mes, dia)
+                            T = self.ListaT.ModificarDatosT(C.fecha_ingreso, FechaEntregaPropuesta, C.descripcion, id_trabajo)
+                            if T == None:
+                                print("=========================================")
+                                print("Error al modificar el trabajo")
+                                print("=========================================")
+                                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                            else:
+                                print("\n=========================================")
+                                print("Los datos que decidio modificar se modificaron con exito")
+                                print("=========================================\n")
+                                print(C)
+                                print("=========================================")
+                        if tipo in ("D","d"):
+                            print("====================================")
+                            print("Modificar la descripcion del trabajo\n")
+                            Descripcion = input("Ingrese la descripcion del trabajo: ")
+                            T = self.ListaT.ModificarDatosT(C.fecha_ingreso, C.fecha_entrega_real, Descripcion, id_trabajo)
+                            if T == None:
+                                print("=========================================")
+                                print("Error al modificar el trabajo")
+                                print("=========================================")
+                                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                            else:
+                                print("\n=========================================")
+                                print("Los datos que decidio modificar se modificaron con exito")
+                                print("=========================================\n")
+                                print(C)
+                                print("=========================================")
+                    if tipo in ("C","c"):
+                        self.Ejecutar()
+        else:
+            print("\nActualmente no se encuentra ningun trabajo cargado en el sistema")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
 
     def BorrarTrabajo(self):
         "Solicita un ID trabajo y borra un trabajo"
-        for i in self.RT.get_all():
-            print("========================================")
-            print("ID trabajo: ",i.id_trabajo)
-            print("Fecha de ingreso: ",i.fecha_ingreso)
-            print("Fecha entrega propuesta: ",i.fecha_entrega_propuesta)
-            print("Fecha de entrega real: ",i.fecha_entrega_real)
-            print("Descripcion: ",i.descripcion)
-            print("Retirado: ",i.retirado)
-            print("=========================================")
-        print("========================================")
-        id_trabajo = int(input("Ingrese el ID del trabajo: "))
-        print("========================================")
-        C = self.ListaT.BuscarPorID(id_trabajo)
-        if C == None:
-            print()
-        else:
-            print("=========================================")
-            print(C)
-            print("=========================================")
-            tipo = "n"
-            while tipo not in ("E","e","C","c"):
-                print("=========================================")
-                tipo = input("Opciones: E: Eliminar trabajo / C: No eliminar trabajo")
-            if tipo in ("E","e"):
-                T = self.ListaT.EliminarTrabajo(id_trabajo)
-                if T == None:
-                    print("=========================================")
-                    print("Error al borrar el trabajo")
-                    print("=========================================")
-                else:
-                    print("=========================================")
-                    print("El trabajo se elimino con exito")
-                    print("=========================================")
+        t = self.RT.get_all()
+        if t:
+            for i in t:
+                print("\n========================================")
+                print("ID trabajo: ",i.id_trabajo)
+                print("Fecha de ingreso: ",i.fecha_ingreso)
+                print("Fecha entrega propuesta: ",i.fecha_entrega_propuesta)
+                print("Fecha de entrega real: ",i.fecha_entrega_real)
+                print("Descripcion: ",i.descripcion)
+                print("Retirado: ",i.retirado)
+                print("=========================================\n")
+            while True:
+                try:
+                    id_trabajo = int(input("Ingrese el ID del trabajo: "))
+                except ValueError:
+                    print('Debe ingresar un numero')
+                    continue
+                break
+            C = self.ListaT.BuscarPorID(id_trabajo)
+            if C == None:
+                print("\nEl ID ingresado no pertenece a ningun trabajo guardado en el sistema")
+                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
             else:
-                print("=========================================")
-                print("No se borro ningun trabajo")
-                print("=========================================")
+                print("\n=========================================")
+                print(C)
+                print("=========================================\n")
+                tipo = "n"
+                while tipo not in ("E","e","C","c"):
+                    tipo = input("""¿Estas seguro que desea eliminar el trabajo?
+                    
+    E: Eliminar trabajo
+    C: No eliminar trabajo
+    
+    Ingresa una opcion: """)
+                if tipo in ("E","e"):
+                    T = self.ListaT.EliminarTrabajo(id_trabajo)
+                    if T == None:
+                        print("=========================================")
+                        print("Ocurrio un error al eliminar el trabajo")
+                        print("=========================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
+                    else:
+                        print("\n=========================================")
+                        print("El trabajo fue eliminado con exito")
+                        print("=========================================")
+                        input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+                else:
+                    print("\n==================================")
+                    print("Ha decidido no eliminar el trabajo")
+                    print("==================================")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+        else:
+            print("\nActualmente no se encuentra ningun trabajo cargado en el sistema")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+
 
     def HistorialTrabajosPorC(self):
         """Solicita un ID y muestra una lista con los trabajos encargados por el cliente"""
-        for i in self.RC.get_all_particulares():
-            print("========================================")
-            print("ID cliente: ",i.id_cliente,"- Nombre: ",i.nombre)
-            print("========================================")
-        for i in self.RC.get_all_corporativos():
-            print("========================================")
-            print("ID cliente: ", i.id_cliente, "- Nombre: ", i.nombre_empresa)
-            print("========================================")
-        id = int(input("Ingrese el ID del cliente: "))
-        C = self.ListaC.BuscarPorID(id)
-        if C == None:
-            print()
-        else:
-            print("========================================")
-            print(C)
-            print("========================================")
-            for I in self.ListaT.TrabajoL:
-                if I.cliente.id_cliente == id:
-                    print("=======================================================")
-                    print("ID trabajo: ",I.id_trabajo)
-                    print("Fecha de ingreso: ",I.fecha_ingreso)
-                    print("Fecha entrega propuesta: ",I.fecha_entrega_propuesta)
-                    print("Fecha entrega real: ",I.fecha_entrega_real)
-                    print("Descripcion: ",I.descripcion)
-                    print("Retirado: ",I.retirado)
-                    print("=======================================================")
+        l = self.RC.get_all_corporativos()
+        if l:
+            print("""         =====================""")
+            print("""         CLIENTES CORPORATIVOS""")
+            print("""         =====================""")
+            for i in l:
+                print("========================================")
+                print("ID cliente: ",i.id_cliente,"- Nombre: ",i.nombre_empresa)
+                print("========================================")
+        t = self.RC.get_all_particulares()
+        if t:
+            print("""         =====================""")
+            print("""         CLIENTES PARTICULARES""")
+            print("""         =====================""")
+            for i in t:
+                print("========================================")
+                print("ID cliente: ", i.id_cliente, "- Nombre: ", i.nombre)
+                print("========================================\n")
+        if l or t:
+            while True:
+                try:
+                    id = int(input("\nIngrese el ID del cliente: "))
+                except ValueError:
+                    print('Debe ingresar un numero')
+                    continue
+                break
+            C = self.ListaC.BuscarPorID(id)
+            if C == None:
+                print("\nEl ID ingresado no pertenece a ningun cliente guardado en el sistema")
+                input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+            else:
+                print("\n========================================\n")
+                print(C)
+                print("========================================")
+                t = self.ListaT.TrabajoL
+                if t:
+                    for I in t:
+                        if I.cliente.id_cliente == id:
+                            print("========================================\n")
+                            print("ID trabajo: ",I.id_trabajo)
+                            print("Fecha de ingreso: ",I.fecha_ingreso)
+                            print("Fecha entrega propuesta: ",I.fecha_entrega_propuesta)
+                            print("Fecha entrega real: ",I.fecha_entrega_real)
+                            print("Descripcion: ",I.descripcion)
+                            print("Retirado: ",I.retirado)
+                            print("========================================")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
                 else:
-                    print("========================================")
-                    print("No se encontraron trabajos")
-                    print("========================================")
+                    print("\nActualmente el cliente no cuenta con ningun trabajo cargado en el sistema")
+                    input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
+        else:
+            print("\nActualmente no se encuentra ningun cliente cargado en el sistema")
+            input("\nPRESIONE CUALQUIER TECLA PARA VOLVER AL MENU PRINCIPAL DEL SISTEMA")
 
 
     def salir(self):
-        print("Gracias por utilizar el sistema")
+        print("Muchas gracias por haber utilizado el sistema")
         sys.exit(0)
 
 if __name__ == "__main__":
