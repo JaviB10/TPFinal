@@ -24,7 +24,6 @@ class ListaTrabajos:
         for T in self.TrabajoL:
             if T.id_trabajo == int(id_trabajo):
                 return (T)
-        print("El ID ingresado no pertenece a ningun trabajo")
         return None
 
     def TrabajoFinalizado(self, id_trabajo):
